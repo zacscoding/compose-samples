@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  ubuntu:
+    platform: linux/amd64
+    image: eg_sshd
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ubuntu
+    tty: true
+    ports:
+      - "49154:22"

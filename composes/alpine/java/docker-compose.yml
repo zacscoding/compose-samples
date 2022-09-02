@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  alpine-java:
+    platform: linux/x86_64
+    image: openjdk:8-jre-alpine
+    container_name: alpine-java
+    command:
+      sh -c 'echo before comamnd; cd /tmp; java HelloWorld scan01; echo after command'
+    volumes:
+      - ${PWD}/HelloWorld.class:/tmp/HelloWorld.class

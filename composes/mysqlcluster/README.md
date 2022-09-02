@@ -1,0 +1,1 @@
+These configurations copied from https://github.com/vbabak/docker-mysql-master-slave

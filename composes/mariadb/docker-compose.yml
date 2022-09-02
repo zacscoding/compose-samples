@@ -1,0 +1,25 @@
+version: '3.4'
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: tester
+      MYSQL_PASSWORD: tester
+    ports:
+      - "3306:3306"
+#    logging:
+#      driver: syslog
+#      options:
+#        tag: "{{.DaemonName}}(image={{.ImageName}};name={{.Name}};id={{.ID}})"
+    networks:
+      - backend
+    restart: on-failure
+    volumes:
+      - ${PWD}/__data/mariadb:/var/lib/mysql
+      - ${PWD}/custom.cnf:/etc/mysql/conf.d/custom.cnf
+networks:
+  backend:
+    driver: bridge

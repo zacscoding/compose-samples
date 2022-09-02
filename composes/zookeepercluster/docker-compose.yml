@@ -1,0 +1,50 @@
+version: '3.1'
+
+services:
+  zookeeper1:
+    image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper1
+    ports:
+      - '12181:2181'
+      - '12888:2888'
+      - '13888:3888'
+    volumes:
+      - __zookeeper1_data:/bitnami
+    environment:
+      - ZOO_SERVER_ID=1
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVERS=0.0.0.0:2888:3888,zookeeper2:2888:3888,zookeeper3:2888:3888
+  zookeeper2:
+    image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper2
+    ports:
+      - '22181:2181'
+      - '22888:2888'
+      - '23888:3888'
+    volumes:
+      - __zookeeper2_data:/bitnami
+    environment:
+      - ZOO_SERVER_ID=2
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVERS=zookeeper1:2888:3888,0.0.0.0:2888:3888,zookeeper3:2888:3888
+  zookeeper3:
+    image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper3
+    ports:
+      - '32181:2181'
+      - '32888:2888'
+      - '33888:3888'
+    volumes:
+      - __zookeeper3_data:/bitnami
+    environment:
+      - ZOO_SERVER_ID=3
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVERS=zookeeper1:2888:3888,zookeeper2:2888:3888,0.0.0.0:2888:3888
+
+volumes:
+  __zookeeper1_data:
+    driver: local
+  __zookeeper2_data:
+    driver: local
+  __zookeeper3_data:
+    driver: local

@@ -1,0 +1,33 @@
+version: '3.1'
+services:
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb
+    ports:
+      - "8000:8000"
+    volumes:
+      - $HOME/.aws:/root/.aws
+  dynamodb-ui:
+    restart: always
+    image: aaronshaf/dynamodb-admin
+    container_name: dynamodb-ui
+    environment:
+      - DYNAMO_ENDPOINT=http://dynamodb:8000
+    ports:
+      - 8001:8001
+    volumes:
+      - $HOME/.aws:/root/.aws
+  dynamodb-init:
+    image: amazon/aws-cli
+    entrypoint: /bin/sh -c
+    container_name: dynamodb-init
+    command: "/dynamodb/init.sh"
+    environment:
+      - ENVIRONMENT=LOCAL
+      - HOST=dynamodb:8000
+    depends_on:
+      - dynamodb
+    volumes:
+      - ${HOME}/.aws:/root/.aws
+      - ./init.sh:/dynamodb/init.sh
+      - ./tables:/dynamodb/tables

@@ -1,0 +1,19 @@
+version: '3.4'
+services:
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: swagger-ui
+    environment:
+      - SWAGGER_JSON=/config/sample-api.yaml
+      - BASE_URL=/swagger
+    ports:
+      - "8080:8080"
+    volumes:
+      - ${PWD}/sample-api.yaml:/config/sample-api.yaml
+  httpd:
+    image: httpd:latest
+    container_name: httpd
+    ports:
+      - "8081:80"
+    volumes:
+      - ./sample-api.html:/usr/local/apache2/htdocs/docs.html

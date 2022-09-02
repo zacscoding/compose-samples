@@ -1,0 +1,11 @@
+# for local stuffy
+__*
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+
